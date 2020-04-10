@@ -24,6 +24,6 @@ Route::get('/', function () {
 Route::get('/challenge1','EstimatorController@covid19ImpactEstimator')->name('challenge1');
 
 
-Route::get('/api/v1/on-covid-19/ ', function () {
+Route::get('/api/v1/on-covid-19/', function () {
     return new EstimatorResource($this->EstimatorController->covid19ImpactEstimator());
 });
