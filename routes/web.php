@@ -25,5 +25,16 @@ Route::get('/challenge1','EstimatorController@covid19ImpactEstimator')->name('ch
 
 
 Route::get('/api/v1/on-covid-19/', function () {
-    return new EstimatorResource($this->EstimatorController->covid19ImpactEstimator());
+	 $data=new Data;
+	 $data->region=new Region;
+	 $data->region->name="Africa";
+     $data->region->avgAge=19.7;
+     $data->region->avgDailyIncomeInUSD=5;
+     $data->region->avgDailyIncomePopulation=0.71;
+	 $data->periodType= "days";
+     $data->timeToElapse= 58;
+     $data->reportedCases= 674;
+     $data->population= 66622705;
+     $data->totalHospitalBeds=1380614;
+    return new EstimatorResource($data);
 });
