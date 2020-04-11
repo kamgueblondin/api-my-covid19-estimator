@@ -16,94 +16,114 @@ class EstimatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-     $data=new Data;
-     $data->region=new Region;
-     $data->region->name="Africa";
-     $data->region->avgAge=19.7;
-     $data->region->avgDailyIncomeInUSD=5;
-     $data->region->avgDailyIncomePopulation=0.71;
-     $data->periodType= "days";
-     $data->timeToElapse= 58;
-     $data->reportedCases= 674;
-     $data->population= 66622705;
-     $data->totalHospitalBeds=1380614;
-     
-     return $this->covid19ImpactEstimator($data);
-    }
 
     public function covid19ImpactEstimator($data)
     {
-        /**/
+        /* 
+            best case estimation
+        */
         $impact=new Impact;
-        $severeImpact=new SevereImpact;
         
-        /**/
+        /* 
+            severe case estimation
+        */
+        $severeImpact=new SevereImpact;
+
+        /*
+            the number of days
+        */
+        $days=0;
+        
+        /*
+            the number of currently infected people
+        */
         $impact->currentlyInfected=$data->reportedCases*10;
         $severeImpact->currentlyInfected=$data->reportedCases*50;
         
-        /**/
+        /*
+            estimations in days
+        */
         if($data->periodType=="days"){
             
-            /**/
+            /*
+                the factor
+            */
             $factor=(int)($data->timeToElapse/3);
+            $days=$data->timeToElapse;
             
-            /**/
+            /*
+                infections by requested time
+            */
             $impact->infectionsByRequestedTime=(int)number_format(($impact->currentlyInfected*pow(2, $factor)), 0, '.', '');
             $severeImpact->infectionsByRequestedTime=(int)number_format(($severeImpact->currentlyInfected*pow(2, $factor)), 0, '.', '');
-            
-            /**/
-            $severeImpact->dollarsInFlight=number_format(($severeImpact->infectionsByRequestedTime * 0.65 * 1.5 * $data->timeToElapse), 2, '.', '');
-            $impact->dollarsInFlight=number_format(($impact->infectionsByRequestedTime * 0.65 * 1.5 * $data->timeToElapse), 2, '.', '');
         }
         
-        /**/
+        /*
+            estimations in weeks
+        */
         if($data->periodType=="weeks"){
             
-            /**/
+            /*
+                the factor
+            */
             $factor=(int)(($data->timeToElapse*7)/3);
+            $days=$data->timeToElapse*7;
             
-            /**/
+            /*
+                infections by requested time
+            */
             $impact->infectionsByRequestedTime=(int)number_format(($impact->currentlyInfected*pow(2, $factor)), 0, '.', '');
             $severeImpact->infectionsByRequestedTime=(int)number_format(($severeImpact->currentlyInfected*pow(2, $factor)), 0, '.', '');
             
-            /**/
-            $severeImpact->dollarsInFlight=number_format(($severeImpact->infectionsByRequestedTime * 0.65 * 1.5 * ($data->timeToElapse*7)), 2, '.', '');
-            $impact->dollarsInFlight=number_format(($impact->infectionsByRequestedTime * 0.65 * 1.5 * ($data->timeToElapse*7)), 2, '.', '');
         }
         
-        /**/
+        /*
+            estimations in months
+        */
         if($data->periodType=="months"){
             
-            /**/
+            /*
+                the factor
+            */
             $factor=(int)(($data->timeToElapse*30)/3);
+            $days=$data->timeToElapse*30;
             
-            /**/
+            /*
+                infections by requested time
+            */
             $impact->infectionsByRequestedTime=(int)number_format(($impact->currentlyInfected*pow(2, $factor)), 0, '.', '');
             $severeImpact->infectionsByRequestedTime=(int)number_format(($severeImpact->currentlyInfected*pow(2, $factor)), 0, '.', '');
             
-            /**/
-            $severeImpact->dollarsInFlight=number_format(($severeImpact->infectionsByRequestedTime * 0.65 * 1.5 * ($data->timeToElapse*30)), 2, '.', '');
-            $impact->dollarsInFlight=number_format(($impact->infectionsByRequestedTime * 0.65 * 1.5 * ($data->timeToElapse*30)), 2, '.', '');
         }
         
-        /**/
-        $severeImpact->severeCasesByRequestedTime=(int)number_format(($severeImpact->infectionsByRequestedTime*15/100), 0, '.', '');
+        /*
+            severe cases by requested time
+        */
         $impact->severeCasesByRequestedTime=(int)number_format(($impact->infectionsByRequestedTime*15/100), 0, '.', '');
+        $severeImpact->severeCasesByRequestedTime=(int)number_format(($severeImpact->infectionsByRequestedTime*15/100), 0, '.', '');
         
-        /**/
-        $severeImpact->hospitalBedsByRequestedTime=(int)number_format(((($data->totalHospitalBeds*35)/100)-$severeImpact->severeCasesByRequestedTime), 0, '.', '');
+        /*
+            hospital beds by requested time
+        */
         $impact->hospitalBedsByRequestedTime=(int)number_format(((($data->totalHospitalBeds*35)/100)-$impact->severeCasesByRequestedTime), 0, '.', '');
+        $severeImpact->hospitalBedsByRequestedTime=(int)number_format(((($data->totalHospitalBeds*35)/100)-$severeImpact->severeCasesByRequestedTime), 0, '.', '');
 
-        /**/
-        $severeImpact->casesForICUByRequestedTime=(int)number_format(($severeImpact->infectionsByRequestedTime*5/100), 0, '.', '');
+        /*
+            cases for ICU by requested time
+        */
         $impact->casesForICUByRequestedTime=(int)number_format(($impact->infectionsByRequestedTime*5/100), 0, '.', '');
-
-        /**/
-        $severeImpact->casesForVentilatorsByRequestedTime=(int)number_format(($severeImpact->infectionsByRequestedTime*2/100), 0, '.', '');
+        $severeImpact->casesForICUByRequestedTime=(int)number_format(($severeImpact->infectionsByRequestedTime*5/100), 0, '.', '');
+        /*
+            cases for ventilators by requested time
+        */
         $impact->casesForVentilatorsByRequestedTime=(int)number_format(($impact->infectionsByRequestedTime*2/100), 0, '.', '');
+        $severeImpact->casesForVentilatorsByRequestedTime=(int)number_format(($severeImpact->infectionsByRequestedTime*2/100), 0, '.', '');
 
+        /*
+            dollars in flight
+        */
+        $impact->dollarsInFlight=(double)number_format(((($impact->infectionsByRequestedTime * $data->region->avgDailyIncomePopulation) * $data->region->avgDailyIncomeInUSD) * ($days)), 2, '.', '');
+        $severeImpact->dollarsInFlight=(double)number_format(((($severeImpact->infectionsByRequestedTime * $data->region->avgDailyIncomePopulation) * $data->region->avgDailyIncomeInUSD) * ($days)), 2, '.', '');
 
       return (['data'=>$data,'impact'=>$impact,'severeImpact'=>$severeImpact]);
     }
@@ -117,7 +137,20 @@ class EstimatorController extends Controller
      */
     public function store(Request $request)
     {
-        return ($this->covid19ImpactEstimator($request->all()));
+        //dd($request->region['avgDailyIncomePopulation']);
+         $data=new Data;
+         $data->region=new Region;
+         $data->region->name=$request->region['name'];
+         $data->region->avgAge=$request->region['avgAge'];
+         $data->region->avgDailyIncomeInUSD=$request->region['avgDailyIncomeInUSD'];
+         $data->region->avgDailyIncomePopulation=$request->region['avgDailyIncomePopulation'];
+         $data->periodType= $request->periodType;
+         $data->timeToElapse= $request->timeToElapse;
+         $data->reportedCases= $request->reportedCases;
+         $data->population= $request->population;
+         $data->totalHospitalBeds=$request->totalHospitalBeds;
+         
+         return $this->covid19ImpactEstimator($data);
     }
 
 }
