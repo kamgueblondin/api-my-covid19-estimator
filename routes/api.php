@@ -19,5 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('Api')->group(function() {
-    Route::apiResource('v1/on-covid-19/', 'EstimatorController');
+    //Route::apiResource('v1/on-covid-19/', 'EstimatorController');
+    Route::post('v1/on-covid-19/', 'EstimatorController@store')->name("covid");
 });
