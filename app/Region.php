@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Region extends Model
 {
-    protected $fillable =['name','avgAge','timeToElapse','avgDailyIncomeInUSD','avgDailyIncomePopulation'];
+    //protected $fillable =['name','avgAge','avgDailyIncomeInUSD','avgDailyIncomePopulation'];
+    public $name;
+    public $avgAge;
+    public $avgDailyIncomeInUSD;
+    public $avgDailyIncomePopulation;
 }
