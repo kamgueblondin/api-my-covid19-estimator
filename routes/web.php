@@ -16,4 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/challenge1','EstimatorController@covid19ImpactEstimator')->name('challenge1');
