@@ -8,6 +8,7 @@ use App\Data;
 use App\Region;
 use App\Impact;
 use App\SevereImpact;
+use App\Log;
 
 class EstimatorController extends Controller
 {
@@ -135,8 +136,10 @@ class EstimatorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function json(Request $request)
+    public function default(Request $request)
     {
+         $time_start = microtime(true);
+         $log=new Log;
          $data=new Data;
          $data->region=new Region;
          $data->region->name=$request->region['name'];
@@ -148,12 +151,53 @@ class EstimatorController extends Controller
          $data->reportedCases= $request->reportedCases;
          $data->population= $request->population;
          $data->totalHospitalBeds=$request->totalHospitalBeds;
+
+
+         $de=$this->covid19ImpactEstimator($data);
          
-         return $this->covid19ImpactEstimator($data);
+         $time_end = microtime(true);
+         $execution_time = ($time_end - $time_start)*60;
+         $log->timestamp=$time_start;
+         $log->path="on-covid-19";
+         $log->second=number_format((float) $execution_time, 2);
+         $log->save();
+
+         return $de;
+    }
+
+    public function json(Request $request)
+    {
+         $time_start = microtime(true);
+         $log=new Log;
+         $data=new Data;
+         $data->region=new Region;
+         $data->region->name=$request->region['name'];
+         $data->region->avgAge=$request->region['avgAge'];
+         $data->region->avgDailyIncomeInUSD=$request->region['avgDailyIncomeInUSD'];
+         $data->region->avgDailyIncomePopulation=$request->region['avgDailyIncomePopulation'];
+         $data->periodType= $request->periodType;
+         $data->timeToElapse= $request->timeToElapse;
+         $data->reportedCases= $request->reportedCases;
+         $data->population= $request->population;
+         $data->totalHospitalBeds=$request->totalHospitalBeds;
+
+
+         $de=$this->covid19ImpactEstimator($data);
+         
+         $time_end = microtime(true);
+         $execution_time = ($time_end - $time_start)*60;
+         $log->timestamp=$time_start;
+         $log->path="on-covid-19/json";
+         $log->second=number_format((float) $execution_time, 2);
+         $log->save();
+         
+         return $de;
     }
 
     public function xml(Request $request)
     {
+         $time_start = microtime(true);
+         $log=new Log;
          $data=new Data;
          $data->region=new Region;
          $data->region->name=$request->region['name'];
@@ -165,8 +209,30 @@ class EstimatorController extends Controller
          $data->reportedCases= $request->reportedCases;
          $data->population= $request->population;
          $data->totalHospitalBeds=$request->totalHospitalBeds;
+
+
+         $de=$this->covid19ImpactEstimator($data);
          
-         return response()->xml($this->covid19ImpactEstimator($data));
+         $time_end = microtime(true);
+         $execution_time = ($time_end - $time_start)*60;
+         $log->timestamp=$time_start;
+         $log->path="on-covid-19/xml";
+         $log->second=number_format((float) $execution_time, 2);
+         $log->save();
+         
+         return response()->xml($de);
+    }
+    public function logs()
+    {
+        $logs=Log::all();
+        $text="";
+        foreach ($logs as $log) {
+            $text.=$log->timestamp."\t\t".$log->path."\t\t done in ".$log->second." seconds \n";
+        }
+
+        return response($text, 200)
+                  ->header('Content-Type', 'text/plain');
+                 
     }
 
 }
