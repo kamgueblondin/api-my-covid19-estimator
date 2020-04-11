@@ -137,7 +137,7 @@ class EstimatorController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->region['avgDailyIncomePopulation']);
+         //dd($request->region['name']);
          $data=new Data;
          $data->region=new Region;
          $data->region->name=$request->region['name'];
