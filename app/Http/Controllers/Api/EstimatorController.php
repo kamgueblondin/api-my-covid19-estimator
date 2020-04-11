@@ -117,7 +117,7 @@ class EstimatorController extends Controller
      */
     public function store(Request $request)
     {
-        return($request->data);
+        return($request->all);
     }
 
 }
