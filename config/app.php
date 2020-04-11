@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        XmlResponse\XmlResponseServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -226,6 +227,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Xml' => XmlResponse\Facades\XmlFacade::class,
 
     ],
 

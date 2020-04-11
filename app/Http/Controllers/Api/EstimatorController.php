@@ -135,9 +135,8 @@ class EstimatorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function json(Request $request)
     {
-         //dd($request->region['name']);
          $data=new Data;
          $data->region=new Region;
          $data->region->name=$request->region['name'];
@@ -151,6 +150,23 @@ class EstimatorController extends Controller
          $data->totalHospitalBeds=$request->totalHospitalBeds;
          
          return $this->covid19ImpactEstimator($data);
+    }
+
+    public function xml(Request $request)
+    {
+         $data=new Data;
+         $data->region=new Region;
+         $data->region->name=$request->region['name'];
+         $data->region->avgAge=$request->region['avgAge'];
+         $data->region->avgDailyIncomeInUSD=$request->region['avgDailyIncomeInUSD'];
+         $data->region->avgDailyIncomePopulation=$request->region['avgDailyIncomePopulation'];
+         $data->periodType= $request->periodType;
+         $data->timeToElapse= $request->timeToElapse;
+         $data->reportedCases= $request->reportedCases;
+         $data->population= $request->population;
+         $data->totalHospitalBeds=$request->totalHospitalBeds;
+         
+         return response()->xml($this->covid19ImpactEstimator($data));
     }
 
 }
