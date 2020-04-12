@@ -131,7 +131,7 @@ class EstimatorController extends Controller
 		$impact->dollarsInFlight=(int)number_format((float)(($impact->infectionsByRequestedTime*$data->region->avgDailyIncomePopulation)*$data->region->avgDailyIncomeInUSD/$days), 2, '.', '');
 		$severeImpact->dollarsInFlight=(int)number_format((float)(($severeImpact->infectionsByRequestedTime*$data->region->avgDailyIncomePopulation)*$data->region->avgDailyIncomeInUSD/$days), 2, '.', '');
 
-	  return (['data'=>(array)$data,'impact'=>(array)$impact,'severeImpact'=>(array)$severeImpact]);
+	  return (['data'=>$data,'impact'=>$impact,'severeImpact'=>$severeImpact]);
 	}
 
 
