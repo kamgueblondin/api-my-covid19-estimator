@@ -144,8 +144,6 @@ class EstimatorController extends Controller
      */
     public function default(Request $request)
     {
-         $time_start = microtime(true);
-         $log=new Log;
          $data=new Data;
          $data->region=new Region;
          $data->region->name=$request->region['name'];
@@ -161,20 +159,18 @@ class EstimatorController extends Controller
 
          $de=$this->covid19ImpactEstimator($data);
          
-         $time_end = microtime(true);
-         $execution_time = ($time_end - $time_start)*60;
-         $log->timestamp="POST";
-         $log->path="/api/v1/on-covid-19";
-         $log->second=number_format((float) $execution_time, 2);
-         $log->save();
+        $log=new Log;
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+        $log->save();;
 
          return $de;
     }
 
     public function json(Request $request)
     {
-         $time_start = microtime(true);
-         $log=new Log;
          $data=new Data;
          $data->region=new Region;
          $data->region->name=$request->region['name'];
@@ -190,20 +186,18 @@ class EstimatorController extends Controller
 
          $de=$this->covid19ImpactEstimator($data);
          
-         $time_end = microtime(true);
-         $execution_time = ($time_end - $time_start)*60;
-         $log->timestamp="POST";
-         $log->path="/api/v1/on-covid-19/json";
-         $log->second=number_format((float) $execution_time, 2);
-         $log->save();
+        $log=new Log;
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+        $log->save();
          
          return $de;
     }
 
     public function xml(Request $request)
     {
-         $time_start = microtime(true);
-         $log=new Log;
          $data=new Data;
          $data->region=new Region;
          $data->region->name=$request->region['name'];
@@ -219,55 +213,47 @@ class EstimatorController extends Controller
 
          $de=$this->covid19ImpactEstimator($data);
          
-         $time_end = microtime(true);
-         $execution_time = ($time_end - $time_start)*60;
-         $log->timestamp="POST";
-         $log->path="/api/v1/on-covid-19/xml";
-         $log->second=number_format((float) $execution_time, 2);
-         $log->save();
+        $log=new Log;
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+        $log->save();
          
          return response()->xml($de);
     }
-    public function logs()
+    public function logs(Request $request)
     {
-		$time_start = microtime(true);
-        $log=new Log;
-		$time_end = microtime(true);
-        $execution_time = ($time_end - $time_start)*60;
-        $log->timestamp="POST";
-        $log->path="/api/v1/on-covid-19/logs";
-        $log->second=number_format((float) $execution_time, 2);
+		$log=new Log;
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
         $logs=Log::all();
         $text="";
         foreach ($logs as $log) {
-            $text.=$log->timestamp."\t".$log->path."\t 200 \t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."ms \n";
+            $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms \n";
         }
+		
+		header('Content-Type:text/plain');
 		$response =new Response($text, 200);
 		$response->header('Content-Type', 'text/plain');
 		return $response;
-		
-		//$fileText = "This is some text\nThis test belongs to my file download\nBooyah";
-        //$myName = "ThisDownload.txt";
-        //$headers = ['Content-type'=>'text/plain', 'test'=>'$fileText', 'Content-Disposition'=>sprintf('attachment; filename="%s"', $myName),'X-BooYAH'=>'WorkyWorky','Content-Length'];
-        //return (new Response($text, 200, $headers));
-        //return response($text, 200)->header('Content-Type', 'text/plain');
                  
     }
-	public function logsGet()
+	public function logsGet(Request $request)
     {
-		$time_start = microtime(true);
         $log=new Log;
-		$time_end = microtime(true);
-        $execution_time = ($time_end - $time_start)*60;
-        $log->timestamp="GET";
-        $log->path="/api/v1/on-covid-19/logs";
-        $log->second=number_format((float) $execution_time, 2);
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
         $logs=Log::all();
         $text="";
         foreach ($logs as $log) {
-            $text.=$log->timestamp."\t".$log->path."\t 200 \t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."ms \n";
+            $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms \n";
         }
 		
 		header('Content-Type:text/plain');
@@ -278,40 +264,33 @@ class EstimatorController extends Controller
     }
 	public function defaultget(Request $request)
     {
-		dd($request);
-		$time_start = microtime(true);
-        $log=new Log;
-		$time_end = microtime(true);
-        $execution_time = ($time_end - $time_start)*60;
-        $log->timestamp="GET";
-        $log->path="/api/v1/on-covid-19";
-        $log->second=number_format((float) $execution_time, 2);
+		$log=new Log;
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
                  
     }
 	
-	public function jsonget()
+	public function jsonget(Request $request)
     {
-		$time_start = microtime(true);
-        $log=new Log;
-		$time_end = microtime(true);
-        $execution_time = ($time_end - $time_start)*60;
-        $log->timestamp="GET";
-        $log->path="/api/v1/on-covid-19/json";
-        $log->second=number_format((float) $execution_time, 2);
+		$log=new Log;
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
                  
     }
 	
-	public function xmlget()
+	public function xmlget(Request $request)
     {
-		$time_start = microtime(true);
-        $log=new Log;
-		$time_end = microtime(true);
-        $execution_time = ($time_end - $time_start)*60;
-        $log->timestamp="GET";
-        $log->path="/api/v1/on-covid-19/xml";
-        $log->second=number_format((float) $execution_time, 2);
+		$log=new Log;
+        $log->method=$request->server()['REQUEST_METHOD'];
+        $log->path=$request->server()['PATH_INFO'];
+		$log->status=$request->server()['CONTENT_LENGTH'];
+		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
                  
     }

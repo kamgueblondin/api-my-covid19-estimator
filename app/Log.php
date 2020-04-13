@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model
 {
-     protected $fillable =['timestamp','path','second'];
+     protected $fillable =['method','path','status','requestime'];
 }
