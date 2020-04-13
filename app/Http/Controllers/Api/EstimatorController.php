@@ -161,7 +161,7 @@ class EstimatorController extends Controller
          
         $log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();;
@@ -188,7 +188,7 @@ class EstimatorController extends Controller
          
         $log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
@@ -215,7 +215,7 @@ class EstimatorController extends Controller
          
         $log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
@@ -226,7 +226,7 @@ class EstimatorController extends Controller
     {
 		$log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
@@ -246,7 +246,7 @@ class EstimatorController extends Controller
     {
         $log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
@@ -266,7 +266,7 @@ class EstimatorController extends Controller
     {
 		$log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
@@ -277,7 +277,7 @@ class EstimatorController extends Controller
     {
 		$log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
@@ -288,7 +288,7 @@ class EstimatorController extends Controller
     {
 		$log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
-        $log->path=$request->server()['PATH_INFO'];
+        $log->path=$request->server()['REQUEST_URI'];
 		$log->status=$request->server()['CONTENT_LENGTH'];
 		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
         $log->save();
