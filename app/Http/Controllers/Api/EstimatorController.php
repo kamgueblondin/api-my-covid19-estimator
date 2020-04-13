@@ -240,7 +240,7 @@ class EstimatorController extends Controller
         $logs=Log::all();
         $text="";
         foreach ($logs as $log) {
-            $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".$log->second*10."s \n";
+            $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".($log->second*10)."s \n";
         }
 
         return response($text, 200)->header('Content-Type', 'text/plain');
