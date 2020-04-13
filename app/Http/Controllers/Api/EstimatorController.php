@@ -236,9 +236,9 @@ class EstimatorController extends Controller
             $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms \n";
         }
 		
-		header('Content-Type:text/plain');
+		header('Content-Type: text/plain; charset=utf-8');
 		$response =new Response($text, 200);
-		$response->header('Content-Type', 'text/plain');
+		$response->header('Content-Type', 'text/plain;charset=UTF-8');
 		return $response;
                  
     }
@@ -256,9 +256,9 @@ class EstimatorController extends Controller
             $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms \n";
         }
 		
-		header('Content-Type:text/plain');
+		header('Content-Type: text/plain; charset=utf-8');
 		$response =new Response($text, 200);
-		$response->header('Content-Type', 'text/plain');
+		$response->header('Content-Type', 'text/plain;charset=UTF-8');
 		return $response;
                  
     }
