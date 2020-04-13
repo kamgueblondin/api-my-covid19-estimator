@@ -20,8 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('Api')->group(function() {
     Route::post('v1/on-covid-19/', 'EstimatorController@default')->name("covid");
+	Route::get('v1/on-covid-19/', 'EstimatorController@defaultget')->name("covid");
     Route::post('v1/on-covid-19/json', 'EstimatorController@json')->name("covidjson");
+	Route::get('v1/on-covid-19/json', 'EstimatorController@jsonget')->name("covidjson");
     Route::post('v1/on-covid-19/xml', 'EstimatorController@xml')->name("covidxml");
+	Route::get('v1/on-covid-19/xml', 'EstimatorController@xmlget')->name("covidxml");
     Route::get('v1/on-covid-19/logs', 'EstimatorController@logsGet')->name("covidlog");
     Route::post('v1/on-covid-19/logs', 'EstimatorController@logs')->name("covidlog");
 });

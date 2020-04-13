@@ -131,7 +131,7 @@ class EstimatorController extends Controller
 		*/
 		$impact->dollarsInFlight=(int)number_format((float)(($impact->infectionsByRequestedTime*$data->region->avgDailyIncomePopulation)*$data->region->avgDailyIncomeInUSD/$days), 2, '.', '');
 		$severeImpact->dollarsInFlight=(int)number_format((float)(($severeImpact->infectionsByRequestedTime*$data->region->avgDailyIncomePopulation)*$data->region->avgDailyIncomeInUSD/$days), 2, '.', '');
-
+		
 	  return (['data'=>$data,'impact'=>$impact,'severeImpact'=>$severeImpact]);
 	}
 
@@ -271,6 +271,8 @@ class EstimatorController extends Controller
         foreach ($logs as $log) {
             $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."ms \n";
         }
+		
+		header('Content-Type:text/plain');
 		$response =new Response($text, 200);
 		$response->header('Content-Type', 'text/plain');
 		return $response;
@@ -280,6 +282,44 @@ class EstimatorController extends Controller
         //$headers = ['Content-type'=>'text/plain', 'test'=>'$fileText', 'Content-Disposition'=>sprintf('attachment; filename="%s"', $myName),'X-BooYAH'=>'WorkyWorky','Content-Length'];
         //return (new Response($text, 200, $headers));
         //return response($text, 200)->header('Content-Type', 'text/plain');
+                 
+    }
+	public function defaultget()
+    {
+		$time_start = microtime(true);
+        $log=new Log;
+		$time_end = microtime(true);
+        $execution_time = ($time_end - $time_start)*60;
+        $log->timestamp="GET";
+        $log->path="/api/v1/on-covid-19";
+        $log->second=number_format((float) $execution_time, 2);
+        $log->save();
+                 
+    }
+	
+	public function jsonget()
+    {
+		$time_start = microtime(true);
+        $log=new Log;
+		$time_end = microtime(true);
+        $execution_time = ($time_end - $time_start)*60;
+        $log->timestamp="GET";
+        $log->path="/api/v1/on-covid-19/json";
+        $log->second=number_format((float) $execution_time, 2);
+        $log->save();
+                 
+    }
+	
+	public function xmlget()
+    {
+		$time_start = microtime(true);
+        $log=new Log;
+		$time_end = microtime(true);
+        $execution_time = ($time_end - $time_start)*60;
+        $log->timestamp="GET";
+        $log->path="/api/v1/on-covid-19/xml";
+        $log->second=number_format((float) $execution_time, 2);
+        $log->save();
                  
     }
 
