@@ -234,7 +234,7 @@ class EstimatorController extends Controller
 		$time_end = microtime(true);
         $execution_time = ($time_end - $time_start)*60;
         $log->timestamp=(int)$time_start;
-        $log->path="on-covid-19/xml";
+        $log->path="on-covid-19/logs";
         $log->second=number_format((float) $execution_time, 2);
         $log->save();
         $logs=Log::all();
