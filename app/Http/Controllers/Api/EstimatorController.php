@@ -241,16 +241,44 @@ class EstimatorController extends Controller
         $logs=Log::all();
         $text="";
         foreach ($logs as $log) {
-            $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."s \n";
+            $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."ms \n";
         }
 		$response =new Response($text, 200);
-		$response->header('Content-Type', 'text/html');
-		//return $response;
+		$response->header('Content-Type', 'text/plain');
+		$response =new Response($text, 200);
+		$response->header('Content-Type', 'text/plain');
+		return $response;
 		
-		$fileText = "This is some text\nThis test belongs to my file download\nBooyah";
-        $myName = "ThisDownload.txt";
-        $headers = ['Content-type'=>'text/plain', 'test'=>'$fileText', 'Content-Disposition'=>sprintf('attachment; filename="%s"', $myName),'X-BooYAH'=>'WorkyWorky','Content-Length'];
-        return (new Response($text, 200, $headers));
+		//$fileText = "This is some text\nThis test belongs to my file download\nBooyah";
+        //$myName = "ThisDownload.txt";
+        //$headers = ['Content-type'=>'text/plain', 'test'=>'$fileText', 'Content-Disposition'=>sprintf('attachment; filename="%s"', $myName),'X-BooYAH'=>'WorkyWorky','Content-Length'];
+        //return (new Response($text, 200, $headers));
+        //return response($text, 200)->header('Content-Type', 'text/plain');
+                 
+    }
+	public function logsGet()
+    {
+		$time_start = microtime(true);
+        $log=new Log;
+		$time_end = microtime(true);
+        $execution_time = ($time_end - $time_start)*60;
+        $log->timestamp="GET";
+        $log->path="/api/v1/on-covid-19/logs";
+        $log->second=number_format((float) $execution_time, 2);
+        $log->save();
+        $logs=Log::all();
+        $text="";
+        foreach ($logs as $log) {
+            $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."ms \n";
+        }
+		$response =new Response($text, 200);
+		$response->header('Content-Type', 'text/plain');
+		return $response;
+		
+		//$fileText = "This is some text\nThis test belongs to my file download\nBooyah";
+        //$myName = "ThisDownload.txt";
+        //$headers = ['Content-type'=>'text/plain', 'test'=>'$fileText', 'Content-Disposition'=>sprintf('attachment; filename="%s"', $myName),'X-BooYAH'=>'WorkyWorky','Content-Length'];
+        //return (new Response($text, 200, $headers));
         //return response($text, 200)->header('Content-Type', 'text/plain');
                  
     }
