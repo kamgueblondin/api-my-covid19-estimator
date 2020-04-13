@@ -8,6 +8,7 @@ use App\Data;
 use App\Region;
 use App\Impact;
 use App\SevereImpact;
+use Illuminate\Http\Response;
 use App\Log;
 
 
@@ -242,8 +243,10 @@ class EstimatorController extends Controller
         foreach ($logs as $log) {
             $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."s \n";
         }
-
-        return response($text, 200)->header('Content-Type', 'text/plain');
+		$response =new Response($text, 200);
+		$response->header('Content-Type', 'text/plain');
+		return $response;
+        //return response($text, 200)->header('Content-Type', 'text/plain');
                  
     }
 
