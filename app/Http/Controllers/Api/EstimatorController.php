@@ -189,7 +189,7 @@ class EstimatorController extends Controller
         $log=new Log;
         $log->method=$request->header();
         $log->path=$request->server();
-		$log->status=$request;
+		$log->status=$request->request();
 		$log->requestime=" diferent";
         $log->save();
 		
@@ -234,7 +234,7 @@ class EstimatorController extends Controller
 		$log=new Log;
         $log->method=$request->header();
         $log->path=$request->server();
-		$log->status=$request;
+		$log->status=$request->request();
 		$log->requestime=" diferent";
         $log->save();
 		
