@@ -244,8 +244,13 @@ class EstimatorController extends Controller
             $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".str_pad(($log->second*100), 2, "0", STR_PAD_LEFT)."s \n";
         }
 		$response =new Response($text, 200);
-		$response->header('Content-Type', 'text/plain');
-		return $response;
+		$response->header('Content-Type', 'text/html');
+		//return $response;
+		
+		$fileText = "This is some text\nThis test belongs to my file download\nBooyah";
+        $myName = "ThisDownload.txt";
+        $headers = ['Content-type'=>'text/plain', 'test'=>'$fileText', 'Content-Disposition'=>sprintf('attachment; filename="%s"', $myName),'X-BooYAH'=>'WorkyWorky','Content-Length'];
+        return (new Response($text, 200, $headers));
         //return response($text, 200)->header('Content-Type', 'text/plain');
                  
     }
