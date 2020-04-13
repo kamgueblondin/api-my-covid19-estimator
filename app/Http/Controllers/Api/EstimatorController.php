@@ -163,7 +163,9 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();;
 
          return $de;
@@ -190,7 +192,9 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/json";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();
          
          return $de;
@@ -217,7 +221,9 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/xml";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();
          
          return response()->xml($de);
@@ -228,12 +234,14 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/logs";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();
         $logs=Log::all();
         $text="";
         foreach ($logs as $log) {
-            $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms \n";
+            $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms\n";
         }
 		
 		header('Content-Type: text/plain; charset=utf-8');
@@ -248,12 +256,14 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/logs";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();
         $logs=Log::all();
         $text="";
         foreach ($logs as $log) {
-            $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms \n";
+            $text.=$log->method."\t\t".$log->path."\t\t".$log->status."\t\t".$log->requestime."ms\n";
         }
 		
 		header('Content-Type: text/plain; charset=utf-8');
@@ -268,7 +278,9 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();
                  
     }
@@ -279,7 +291,9 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/json";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();
                  
     }
@@ -290,7 +304,9 @@ class EstimatorController extends Controller
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/xml";
 		$log->status=http_response_code();
-		$log->requestime=str_pad((int)((microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])), 2, "0", STR_PAD_LEFT);
+		$p=(microtime(true)-$request->server()['REQUEST_TIME_FLOAT'])*1000;
+		$t=str_pad((int)($p), 2, "0", STR_PAD_LEFT);
+		$log->requestime=$t;
         $log->save();
                  
     }
