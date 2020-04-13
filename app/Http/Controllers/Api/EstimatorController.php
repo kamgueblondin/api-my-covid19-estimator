@@ -162,8 +162,8 @@ class EstimatorController extends Controller
          
          $time_end = microtime(true);
          $execution_time = ($time_end - $time_start)*60;
-         $log->timestamp=(int)$time_start;
-         $log->path="on-covid-19";
+         $log->timestamp="POST";
+         $log->path="/api/v1/on-covid-19";
          $log->second=number_format((float) $execution_time, 2);
          $log->save();
 
@@ -191,8 +191,8 @@ class EstimatorController extends Controller
          
          $time_end = microtime(true);
          $execution_time = ($time_end - $time_start)*60;
-         $log->timestamp=(int)$time_start;
-         $log->path="on-covid-19/json";
+         $log->timestamp="POST";
+         $log->path="/api/v1/on-covid-19/json";
          $log->second=number_format((float) $execution_time, 2);
          $log->save();
          
@@ -220,8 +220,8 @@ class EstimatorController extends Controller
          
          $time_end = microtime(true);
          $execution_time = ($time_end - $time_start)*60;
-         $log->timestamp=(int)$time_start;
-         $log->path="on-covid-19/xml";
+         $log->timestamp="POST";
+         $log->path="/api/v1/on-covid-19/xml";
          $log->second=number_format((float) $execution_time, 2);
          $log->save();
          
@@ -233,14 +233,14 @@ class EstimatorController extends Controller
         $log=new Log;
 		$time_end = microtime(true);
         $execution_time = ($time_end - $time_start)*60;
-        $log->timestamp=(int)$time_start;
-        $log->path="on-covid-19/logs";
+        $log->timestamp="POST";
+        $log->path="/api/v1/on-covid-19/logs";
         $log->second=number_format((float) $execution_time, 2);
         $log->save();
         $logs=Log::all();
         $text="";
         foreach ($logs as $log) {
-            $text.=$log->timestamp."\t\t".$log->path."\t\t done in ".$log->second." seconds \n";
+            $text.=$log->timestamp."\t\t".$log->path."\t\t 200 \t\t".$log->second*10."s \n";
         }
 
         return response($text, 200)->header('Content-Type', 'text/plain');
