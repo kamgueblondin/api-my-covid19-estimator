@@ -185,14 +185,7 @@ class EstimatorController extends Controller
 
 
          $de=$this->covid19ImpactEstimator($data);
-		 
-        $log=new Log;
-        $log->method=$request->header();
-        $log->path=$request->server();
-		$log->status=$request->server();
-		$log->requestime=" diferent";
-        $log->save();
-		
+         
         $log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/json";
@@ -231,13 +224,6 @@ class EstimatorController extends Controller
     }
     public function logs(Request $request)
     {
-		$log=new Log;
-        $log->method=$request->header();
-        $log->path=$request->server();
-		$log->status=$request->server();
-		$log->requestime=" diferent";
-        $log->save();
-		
 		$log=new Log;
         $log->method=$request->server()['REQUEST_METHOD'];
         $log->path="/api/v1/on-covid-19/logs";
